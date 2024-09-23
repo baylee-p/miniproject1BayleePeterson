@@ -2,7 +2,6 @@
 ### Baylee Peterson
 ### Mini Project 1
 
-import pprint
 import yfinance as yf
 from datetime import datetime, timedelta
 import numpy as np
@@ -10,6 +9,7 @@ import matplotlib.pyplot as plt
 import copy
 import os
 
+# Create charts folder if doesn't exist
 os.makedirs("charts", exist_ok=True)
 
 # Get today's date and calculate the date 10 business days ago
@@ -17,12 +17,9 @@ today = datetime.now()
 ten_days_ago = today - timedelta(days=13)
 
 
-
+# Program to create graphs of the five stocks
 mytickers = ["MSFT", "AAPL", "NVDA", "GME", "AMC"]
 
-mydata = {}
-
-mytickers.sort()
 for ticker in mytickers:
     result = yf.Ticker(ticker)
     hist = result.history(start=ten_days_ago, end=today)
@@ -30,11 +27,9 @@ for ticker in mytickers:
     for date in hist['Close'][:11]:
         last10days.append(date)
     if len(last10days) == 10:
-        maxlist = copy.copy(last10days)
-        maxlist.sort()
-        max_price = maxlist[-1]+10
-        min_price = maxlist[0]-10
         myarray = np.array(last10days)
+        max_price = myarray.max() + (myarray.max()*.05)
+        min_price = myarray.min() - (myarray.min()*.05)
         plt.plot(myarray)
         plt.xlabel('Days')
         plt.ylabel('Closing Price')
@@ -43,7 +38,3 @@ for ticker in mytickers:
         plt.savefig(f"charts/{ticker}.png")
     else:
         print(f"Do not have 10 days of data. Only have {len(last10days)} days.")
-
-# get historical market data
-#hist = msft.history(period="1mo")
-#pprint.pprint(mydata)
