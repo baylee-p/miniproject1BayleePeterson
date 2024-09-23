@@ -6,7 +6,6 @@ import yfinance as yf
 from datetime import datetime, timedelta
 import numpy as np
 import matplotlib.pyplot as plt
-import copy
 import os
 
 # Create charts folder if doesn't exist
@@ -15,7 +14,6 @@ os.makedirs("charts", exist_ok=True)
 # Get today's date and calculate the date 10 business days ago
 today = datetime.now()
 ten_days_ago = today - timedelta(days=13)
-
 
 # Program to create graphs of the five stocks
 mytickers = ["MSFT", "AAPL", "NVDA", "GME", "AMC"]
